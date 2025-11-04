@@ -1,0 +1,21 @@
+# Configuración de análisis para el proyecto Crossword Generator
+
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    # Reglas adicionales recomendadas
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    prefer_const_literals_to_create_immutables: true
+    avoid_print: false  # Permitimos debugPrint
+    
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  
+  errors:
+    # Ajustar severidad de ciertos errores
+    todo: ignore
+    invalid_annotation_target: ignore

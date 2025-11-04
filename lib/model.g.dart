@@ -1,0 +1,1887 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'model.dart';
+
+// **************************************************************************
+// BuiltValueGenerator
+// **************************************************************************
+
+Serializers _$serializers =
+    (Serializers().toBuilder()
+          ..add(Crossword.serializer)
+          ..add(CrosswordCharacter.serializer)
+          ..add(CrosswordWord.serializer)
+          ..add(DisplayInfo.serializer)
+          ..add(GameSession.serializer)
+          ..add(GameUser.serializer)
+          ..add(Location.serializer)
+          ..add(WorkQueue.serializer)
+          ..addBuilderFactory(
+            const FullType(BuiltList, const [const FullType(CrosswordWord)]),
+            () => ListBuilder<CrosswordWord>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltMap, const [
+              const FullType(Location),
+              const FullType(CrosswordCharacter),
+            ]),
+            () => MapBuilder<Location, CrosswordCharacter>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltMap, const [
+              const FullType(Location),
+              const FullType(Direction),
+            ]),
+            () => MapBuilder<Location, Direction>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltSet, const [const FullType(Location)]),
+            () => SetBuilder<Location>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltSet, const [const FullType(String)]),
+            () => SetBuilder<String>(),
+          ))
+        .build();
+Serializer<Location> _$locationSerializer = _$LocationSerializer();
+Serializer<CrosswordWord> _$crosswordWordSerializer =
+    _$CrosswordWordSerializer();
+Serializer<CrosswordCharacter> _$crosswordCharacterSerializer =
+    _$CrosswordCharacterSerializer();
+Serializer<Crossword> _$crosswordSerializer = _$CrosswordSerializer();
+Serializer<WorkQueue> _$workQueueSerializer = _$WorkQueueSerializer();
+Serializer<DisplayInfo> _$displayInfoSerializer = _$DisplayInfoSerializer();
+Serializer<GameUser> _$gameUserSerializer = _$GameUserSerializer();
+Serializer<GameSession> _$gameSessionSerializer = _$GameSessionSerializer();
+
+class _$LocationSerializer implements StructuredSerializer<Location> {
+  @override
+  final Iterable<Type> types = const [Location, _$Location];
+  @override
+  final String wireName = 'Location';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    Location object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'x',
+      serializers.serialize(object.x, specifiedType: const FullType(int)),
+      'y',
+      serializers.serialize(object.y, specifiedType: const FullType(int)),
+    ];
+
+    return result;
+  }
+
+  @override
+  Location deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = LocationBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'x':
+          result.x =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
+          break;
+        case 'y':
+          result.y =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CrosswordWordSerializer implements StructuredSerializer<CrosswordWord> {
+  @override
+  final Iterable<Type> types = const [CrosswordWord, _$CrosswordWord];
+  @override
+  final String wireName = 'CrosswordWord';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    CrosswordWord object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'word',
+      serializers.serialize(object.word, specifiedType: const FullType(String)),
+      'location',
+      serializers.serialize(
+        object.location,
+        specifiedType: const FullType(Location),
+      ),
+      'direction',
+      serializers.serialize(
+        object.direction,
+        specifiedType: const FullType(Direction),
+      ),
+    ];
+
+    return result;
+  }
+
+  @override
+  CrosswordWord deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = CrosswordWordBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'word':
+          result.word =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'location':
+          result.location.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(Location),
+                )!
+                as Location,
+          );
+          break;
+        case 'direction':
+          result.direction =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Direction),
+                  )!
+                  as Direction;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CrosswordCharacterSerializer
+    implements StructuredSerializer<CrosswordCharacter> {
+  @override
+  final Iterable<Type> types = const [CrosswordCharacter, _$CrosswordCharacter];
+  @override
+  final String wireName = 'CrosswordCharacter';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    CrosswordCharacter object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'character',
+      serializers.serialize(
+        object.character,
+        specifiedType: const FullType(String),
+      ),
+    ];
+    Object? value;
+    value = object.acrossWord;
+    if (value != null) {
+      result
+        ..add('acrossWord')
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(CrosswordWord),
+          ),
+        );
+    }
+    value = object.downWord;
+    if (value != null) {
+      result
+        ..add('downWord')
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(CrosswordWord),
+          ),
+        );
+    }
+    return result;
+  }
+
+  @override
+  CrosswordCharacter deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = CrosswordCharacterBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'character':
+          result.character =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'acrossWord':
+          result.acrossWord.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(CrosswordWord),
+                )!
+                as CrosswordWord,
+          );
+          break;
+        case 'downWord':
+          result.downWord.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(CrosswordWord),
+                )!
+                as CrosswordWord,
+          );
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CrosswordSerializer implements StructuredSerializer<Crossword> {
+  @override
+  final Iterable<Type> types = const [Crossword, _$Crossword];
+  @override
+  final String wireName = 'Crossword';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    Crossword object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'width',
+      serializers.serialize(object.width, specifiedType: const FullType(int)),
+      'height',
+      serializers.serialize(object.height, specifiedType: const FullType(int)),
+      'words',
+      serializers.serialize(
+        object.words,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(CrosswordWord),
+        ]),
+      ),
+      'characters',
+      serializers.serialize(
+        object.characters,
+        specifiedType: const FullType(BuiltMap, const [
+          const FullType(Location),
+          const FullType(CrosswordCharacter),
+        ]),
+      ),
+    ];
+
+    return result;
+  }
+
+  @override
+  Crossword deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = CrosswordBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'width':
+          result.width =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
+          break;
+        case 'height':
+          result.height =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
+          break;
+        case 'words':
+          result.words.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(CrosswordWord),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
+          break;
+        case 'characters':
+          result.characters.replace(
+            serializers.deserialize(
+              value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(Location),
+                const FullType(CrosswordCharacter),
+              ]),
+            )!,
+          );
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$WorkQueueSerializer implements StructuredSerializer<WorkQueue> {
+  @override
+  final Iterable<Type> types = const [WorkQueue, _$WorkQueue];
+  @override
+  final String wireName = 'WorkQueue';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    WorkQueue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'crossword',
+      serializers.serialize(
+        object.crossword,
+        specifiedType: const FullType(Crossword),
+      ),
+      'locationsToTry',
+      serializers.serialize(
+        object.locationsToTry,
+        specifiedType: const FullType(BuiltMap, const [
+          const FullType(Location),
+          const FullType(Direction),
+        ]),
+      ),
+      'badLocations',
+      serializers.serialize(
+        object.badLocations,
+        specifiedType: const FullType(BuiltSet, const [
+          const FullType(Location),
+        ]),
+      ),
+      'candidateWords',
+      serializers.serialize(
+        object.candidateWords,
+        specifiedType: const FullType(BuiltSet, const [const FullType(String)]),
+      ),
+    ];
+
+    return result;
+  }
+
+  @override
+  WorkQueue deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = WorkQueueBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'crossword':
+          result.crossword.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(Crossword),
+                )!
+                as Crossword,
+          );
+          break;
+        case 'locationsToTry':
+          result.locationsToTry.replace(
+            serializers.deserialize(
+              value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(Location),
+                const FullType(Direction),
+              ]),
+            )!,
+          );
+          break;
+        case 'badLocations':
+          result.badLocations.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltSet, const [
+                    const FullType(Location),
+                  ]),
+                )!
+                as BuiltSet<Object?>,
+          );
+          break;
+        case 'candidateWords':
+          result.candidateWords.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltSet, const [
+                    const FullType(String),
+                  ]),
+                )!
+                as BuiltSet<Object?>,
+          );
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$DisplayInfoSerializer implements StructuredSerializer<DisplayInfo> {
+  @override
+  final Iterable<Type> types = const [DisplayInfo, _$DisplayInfo];
+  @override
+  final String wireName = 'DisplayInfo';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    DisplayInfo object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'wordsInGridCount',
+      serializers.serialize(
+        object.wordsInGridCount,
+        specifiedType: const FullType(String),
+      ),
+      'candidateWordsCount',
+      serializers.serialize(
+        object.candidateWordsCount,
+        specifiedType: const FullType(String),
+      ),
+      'locationsToExploreCount',
+      serializers.serialize(
+        object.locationsToExploreCount,
+        specifiedType: const FullType(String),
+      ),
+      'knownBadLocationsCount',
+      serializers.serialize(
+        object.knownBadLocationsCount,
+        specifiedType: const FullType(String),
+      ),
+      'gridFilledPercentage',
+      serializers.serialize(
+        object.gridFilledPercentage,
+        specifiedType: const FullType(String),
+      ),
+    ];
+
+    return result;
+  }
+
+  @override
+  DisplayInfo deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = DisplayInfoBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'wordsInGridCount':
+          result.wordsInGridCount =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'candidateWordsCount':
+          result.candidateWordsCount =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'locationsToExploreCount':
+          result.locationsToExploreCount =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'knownBadLocationsCount':
+          result.knownBadLocationsCount =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'gridFilledPercentage':
+          result.gridFilledPercentage =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GameUserSerializer implements StructuredSerializer<GameUser> {
+  @override
+  final Iterable<Type> types = const [GameUser, _$GameUser];
+  @override
+  final String wireName = 'GameUser';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GameUser object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'username',
+      serializers.serialize(
+        object.username,
+        specifiedType: const FullType(String),
+      ),
+      'bestScore',
+      serializers.serialize(
+        object.bestScore,
+        specifiedType: const FullType(int),
+      ),
+      'gamesCompleted',
+      serializers.serialize(
+        object.gamesCompleted,
+        specifiedType: const FullType(int),
+      ),
+    ];
+    Object? value;
+    value = object.lastPlayed;
+    if (value != null) {
+      result
+        ..add('last_played')
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(DateTime)),
+        );
+    }
+    return result;
+  }
+
+  @override
+  GameUser deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GameUserBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'username':
+          result.username =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'bestScore':
+          result.bestScore =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
+          break;
+        case 'gamesCompleted':
+          result.gamesCompleted =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
+          break;
+        case 'last_played':
+          result.lastPlayed =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )
+                  as DateTime?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GameSessionSerializer implements StructuredSerializer<GameSession> {
+  @override
+  final Iterable<Type> types = const [GameSession, _$GameSession];
+  @override
+  final String wireName = 'GameSession';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GameSession object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'user',
+      serializers.serialize(
+        object.user,
+        specifiedType: const FullType(GameUser),
+      ),
+      'startTime',
+      serializers.serialize(
+        object.startTime,
+        specifiedType: const FullType(DateTime),
+      ),
+      'wordsFound',
+      serializers.serialize(
+        object.wordsFound,
+        specifiedType: const FullType(int),
+      ),
+      'currentScore',
+      serializers.serialize(
+        object.currentScore,
+        specifiedType: const FullType(int),
+      ),
+      'isPlaying',
+      serializers.serialize(
+        object.isPlaying,
+        specifiedType: const FullType(bool),
+      ),
+    ];
+
+    return result;
+  }
+
+  @override
+  GameSession deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GameSessionBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'user':
+          result.user.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(GameUser),
+                )!
+                as GameUser,
+          );
+          break;
+        case 'startTime':
+          result.startTime =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )!
+                  as DateTime;
+          break;
+        case 'wordsFound':
+          result.wordsFound =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
+          break;
+        case 'currentScore':
+          result.currentScore =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
+          break;
+        case 'isPlaying':
+          result.isPlaying =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$Location extends Location {
+  @override
+  final int x;
+  @override
+  final int y;
+
+  factory _$Location([void Function(LocationBuilder)? updates]) =>
+      (LocationBuilder()..update(updates))._build();
+
+  _$Location._({required this.x, required this.y}) : super._();
+  @override
+  Location rebuild(void Function(LocationBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  LocationBuilder toBuilder() => LocationBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Location && x == other.x && y == other.y;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, x.hashCode);
+    _$hash = $jc(_$hash, y.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'Location')
+          ..add('x', x)
+          ..add('y', y))
+        .toString();
+  }
+}
+
+class LocationBuilder implements Builder<Location, LocationBuilder> {
+  _$Location? _$v;
+
+  int? _x;
+  int? get x => _$this._x;
+  set x(int? x) => _$this._x = x;
+
+  int? _y;
+  int? get y => _$this._y;
+  set y(int? y) => _$this._y = y;
+
+  LocationBuilder();
+
+  LocationBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _x = $v.x;
+      _y = $v.y;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(Location other) {
+    _$v = other as _$Location;
+  }
+
+  @override
+  void update(void Function(LocationBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  Location build() => _build();
+
+  _$Location _build() {
+    final _$result =
+        _$v ??
+        _$Location._(
+          x: BuiltValueNullFieldError.checkNotNull(x, r'Location', 'x'),
+          y: BuiltValueNullFieldError.checkNotNull(y, r'Location', 'y'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CrosswordWord extends CrosswordWord {
+  @override
+  final String word;
+  @override
+  final Location location;
+  @override
+  final Direction direction;
+
+  factory _$CrosswordWord([void Function(CrosswordWordBuilder)? updates]) =>
+      (CrosswordWordBuilder()..update(updates))._build();
+
+  _$CrosswordWord._({
+    required this.word,
+    required this.location,
+    required this.direction,
+  }) : super._();
+  @override
+  CrosswordWord rebuild(void Function(CrosswordWordBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CrosswordWordBuilder toBuilder() => CrosswordWordBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CrosswordWord &&
+        word == other.word &&
+        location == other.location &&
+        direction == other.direction;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, word.hashCode);
+    _$hash = $jc(_$hash, location.hashCode);
+    _$hash = $jc(_$hash, direction.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'CrosswordWord')
+          ..add('word', word)
+          ..add('location', location)
+          ..add('direction', direction))
+        .toString();
+  }
+}
+
+class CrosswordWordBuilder
+    implements Builder<CrosswordWord, CrosswordWordBuilder> {
+  _$CrosswordWord? _$v;
+
+  String? _word;
+  String? get word => _$this._word;
+  set word(String? word) => _$this._word = word;
+
+  LocationBuilder? _location;
+  LocationBuilder get location => _$this._location ??= LocationBuilder();
+  set location(LocationBuilder? location) => _$this._location = location;
+
+  Direction? _direction;
+  Direction? get direction => _$this._direction;
+  set direction(Direction? direction) => _$this._direction = direction;
+
+  CrosswordWordBuilder();
+
+  CrosswordWordBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _word = $v.word;
+      _location = $v.location.toBuilder();
+      _direction = $v.direction;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CrosswordWord other) {
+    _$v = other as _$CrosswordWord;
+  }
+
+  @override
+  void update(void Function(CrosswordWordBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  CrosswordWord build() => _build();
+
+  _$CrosswordWord _build() {
+    _$CrosswordWord _$result;
+    try {
+      _$result =
+          _$v ??
+          _$CrosswordWord._(
+            word: BuiltValueNullFieldError.checkNotNull(
+              word,
+              r'CrosswordWord',
+              'word',
+            ),
+            location: location.build(),
+            direction: BuiltValueNullFieldError.checkNotNull(
+              direction,
+              r'CrosswordWord',
+              'direction',
+            ),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'location';
+        location.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+          r'CrosswordWord',
+          _$failedField,
+          e.toString(),
+        );
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CrosswordCharacter extends CrosswordCharacter {
+  @override
+  final String character;
+  @override
+  final CrosswordWord? acrossWord;
+  @override
+  final CrosswordWord? downWord;
+
+  factory _$CrosswordCharacter([
+    void Function(CrosswordCharacterBuilder)? updates,
+  ]) => (CrosswordCharacterBuilder()..update(updates))._build();
+
+  _$CrosswordCharacter._({
+    required this.character,
+    this.acrossWord,
+    this.downWord,
+  }) : super._();
+  @override
+  CrosswordCharacter rebuild(
+    void Function(CrosswordCharacterBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
+
+  @override
+  CrosswordCharacterBuilder toBuilder() =>
+      CrosswordCharacterBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CrosswordCharacter &&
+        character == other.character &&
+        acrossWord == other.acrossWord &&
+        downWord == other.downWord;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, character.hashCode);
+    _$hash = $jc(_$hash, acrossWord.hashCode);
+    _$hash = $jc(_$hash, downWord.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'CrosswordCharacter')
+          ..add('character', character)
+          ..add('acrossWord', acrossWord)
+          ..add('downWord', downWord))
+        .toString();
+  }
+}
+
+class CrosswordCharacterBuilder
+    implements Builder<CrosswordCharacter, CrosswordCharacterBuilder> {
+  _$CrosswordCharacter? _$v;
+
+  String? _character;
+  String? get character => _$this._character;
+  set character(String? character) => _$this._character = character;
+
+  CrosswordWordBuilder? _acrossWord;
+  CrosswordWordBuilder get acrossWord =>
+      _$this._acrossWord ??= CrosswordWordBuilder();
+  set acrossWord(CrosswordWordBuilder? acrossWord) =>
+      _$this._acrossWord = acrossWord;
+
+  CrosswordWordBuilder? _downWord;
+  CrosswordWordBuilder get downWord =>
+      _$this._downWord ??= CrosswordWordBuilder();
+  set downWord(CrosswordWordBuilder? downWord) => _$this._downWord = downWord;
+
+  CrosswordCharacterBuilder();
+
+  CrosswordCharacterBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _character = $v.character;
+      _acrossWord = $v.acrossWord?.toBuilder();
+      _downWord = $v.downWord?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CrosswordCharacter other) {
+    _$v = other as _$CrosswordCharacter;
+  }
+
+  @override
+  void update(void Function(CrosswordCharacterBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  CrosswordCharacter build() => _build();
+
+  _$CrosswordCharacter _build() {
+    _$CrosswordCharacter _$result;
+    try {
+      _$result =
+          _$v ??
+          _$CrosswordCharacter._(
+            character: BuiltValueNullFieldError.checkNotNull(
+              character,
+              r'CrosswordCharacter',
+              'character',
+            ),
+            acrossWord: _acrossWord?.build(),
+            downWord: _downWord?.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'acrossWord';
+        _acrossWord?.build();
+        _$failedField = 'downWord';
+        _downWord?.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+          r'CrosswordCharacter',
+          _$failedField,
+          e.toString(),
+        );
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$Crossword extends Crossword {
+  @override
+  final int width;
+  @override
+  final int height;
+  @override
+  final BuiltList<CrosswordWord> words;
+  @override
+  final BuiltMap<Location, CrosswordCharacter> characters;
+
+  factory _$Crossword([void Function(CrosswordBuilder)? updates]) =>
+      (CrosswordBuilder()..update(updates))._build();
+
+  _$Crossword._({
+    required this.width,
+    required this.height,
+    required this.words,
+    required this.characters,
+  }) : super._();
+  @override
+  Crossword rebuild(void Function(CrosswordBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CrosswordBuilder toBuilder() => CrosswordBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Crossword &&
+        width == other.width &&
+        height == other.height &&
+        words == other.words &&
+        characters == other.characters;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, width.hashCode);
+    _$hash = $jc(_$hash, height.hashCode);
+    _$hash = $jc(_$hash, words.hashCode);
+    _$hash = $jc(_$hash, characters.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'Crossword')
+          ..add('width', width)
+          ..add('height', height)
+          ..add('words', words)
+          ..add('characters', characters))
+        .toString();
+  }
+}
+
+class CrosswordBuilder implements Builder<Crossword, CrosswordBuilder> {
+  _$Crossword? _$v;
+
+  int? _width;
+  int? get width => _$this._width;
+  set width(int? width) => _$this._width = width;
+
+  int? _height;
+  int? get height => _$this._height;
+  set height(int? height) => _$this._height = height;
+
+  ListBuilder<CrosswordWord>? _words;
+  ListBuilder<CrosswordWord> get words =>
+      _$this._words ??= ListBuilder<CrosswordWord>();
+  set words(ListBuilder<CrosswordWord>? words) => _$this._words = words;
+
+  MapBuilder<Location, CrosswordCharacter>? _characters;
+  MapBuilder<Location, CrosswordCharacter> get characters =>
+      _$this._characters ??= MapBuilder<Location, CrosswordCharacter>();
+  set characters(MapBuilder<Location, CrosswordCharacter>? characters) =>
+      _$this._characters = characters;
+
+  CrosswordBuilder();
+
+  CrosswordBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _width = $v.width;
+      _height = $v.height;
+      _words = $v.words.toBuilder();
+      _characters = $v.characters.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(Crossword other) {
+    _$v = other as _$Crossword;
+  }
+
+  @override
+  void update(void Function(CrosswordBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  Crossword build() => _build();
+
+  _$Crossword _build() {
+    Crossword._fillCharacters(this);
+    _$Crossword _$result;
+    try {
+      _$result =
+          _$v ??
+          _$Crossword._(
+            width: BuiltValueNullFieldError.checkNotNull(
+              width,
+              r'Crossword',
+              'width',
+            ),
+            height: BuiltValueNullFieldError.checkNotNull(
+              height,
+              r'Crossword',
+              'height',
+            ),
+            words: words.build(),
+            characters: characters.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'words';
+        words.build();
+        _$failedField = 'characters';
+        characters.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+          r'Crossword',
+          _$failedField,
+          e.toString(),
+        );
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$WorkQueue extends WorkQueue {
+  @override
+  final Crossword crossword;
+  @override
+  final BuiltMap<Location, Direction> locationsToTry;
+  @override
+  final BuiltSet<Location> badLocations;
+  @override
+  final BuiltSet<String> candidateWords;
+
+  factory _$WorkQueue([void Function(WorkQueueBuilder)? updates]) =>
+      (WorkQueueBuilder()..update(updates))._build();
+
+  _$WorkQueue._({
+    required this.crossword,
+    required this.locationsToTry,
+    required this.badLocations,
+    required this.candidateWords,
+  }) : super._();
+  @override
+  WorkQueue rebuild(void Function(WorkQueueBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  WorkQueueBuilder toBuilder() => WorkQueueBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is WorkQueue &&
+        crossword == other.crossword &&
+        locationsToTry == other.locationsToTry &&
+        badLocations == other.badLocations &&
+        candidateWords == other.candidateWords;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, crossword.hashCode);
+    _$hash = $jc(_$hash, locationsToTry.hashCode);
+    _$hash = $jc(_$hash, badLocations.hashCode);
+    _$hash = $jc(_$hash, candidateWords.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'WorkQueue')
+          ..add('crossword', crossword)
+          ..add('locationsToTry', locationsToTry)
+          ..add('badLocations', badLocations)
+          ..add('candidateWords', candidateWords))
+        .toString();
+  }
+}
+
+class WorkQueueBuilder implements Builder<WorkQueue, WorkQueueBuilder> {
+  _$WorkQueue? _$v;
+
+  CrosswordBuilder? _crossword;
+  CrosswordBuilder get crossword => _$this._crossword ??= CrosswordBuilder();
+  set crossword(CrosswordBuilder? crossword) => _$this._crossword = crossword;
+
+  MapBuilder<Location, Direction>? _locationsToTry;
+  MapBuilder<Location, Direction> get locationsToTry =>
+      _$this._locationsToTry ??= MapBuilder<Location, Direction>();
+  set locationsToTry(MapBuilder<Location, Direction>? locationsToTry) =>
+      _$this._locationsToTry = locationsToTry;
+
+  SetBuilder<Location>? _badLocations;
+  SetBuilder<Location> get badLocations =>
+      _$this._badLocations ??= SetBuilder<Location>();
+  set badLocations(SetBuilder<Location>? badLocations) =>
+      _$this._badLocations = badLocations;
+
+  SetBuilder<String>? _candidateWords;
+  SetBuilder<String> get candidateWords =>
+      _$this._candidateWords ??= SetBuilder<String>();
+  set candidateWords(SetBuilder<String>? candidateWords) =>
+      _$this._candidateWords = candidateWords;
+
+  WorkQueueBuilder();
+
+  WorkQueueBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _crossword = $v.crossword.toBuilder();
+      _locationsToTry = $v.locationsToTry.toBuilder();
+      _badLocations = $v.badLocations.toBuilder();
+      _candidateWords = $v.candidateWords.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(WorkQueue other) {
+    _$v = other as _$WorkQueue;
+  }
+
+  @override
+  void update(void Function(WorkQueueBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  WorkQueue build() => _build();
+
+  _$WorkQueue _build() {
+    _$WorkQueue _$result;
+    try {
+      _$result =
+          _$v ??
+          _$WorkQueue._(
+            crossword: crossword.build(),
+            locationsToTry: locationsToTry.build(),
+            badLocations: badLocations.build(),
+            candidateWords: candidateWords.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'crossword';
+        crossword.build();
+        _$failedField = 'locationsToTry';
+        locationsToTry.build();
+        _$failedField = 'badLocations';
+        badLocations.build();
+        _$failedField = 'candidateWords';
+        candidateWords.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+          r'WorkQueue',
+          _$failedField,
+          e.toString(),
+        );
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$DisplayInfo extends DisplayInfo {
+  @override
+  final String wordsInGridCount;
+  @override
+  final String candidateWordsCount;
+  @override
+  final String locationsToExploreCount;
+  @override
+  final String knownBadLocationsCount;
+  @override
+  final String gridFilledPercentage;
+
+  factory _$DisplayInfo([void Function(DisplayInfoBuilder)? updates]) =>
+      (DisplayInfoBuilder()..update(updates))._build();
+
+  _$DisplayInfo._({
+    required this.wordsInGridCount,
+    required this.candidateWordsCount,
+    required this.locationsToExploreCount,
+    required this.knownBadLocationsCount,
+    required this.gridFilledPercentage,
+  }) : super._();
+  @override
+  DisplayInfo rebuild(void Function(DisplayInfoBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DisplayInfoBuilder toBuilder() => DisplayInfoBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DisplayInfo &&
+        wordsInGridCount == other.wordsInGridCount &&
+        candidateWordsCount == other.candidateWordsCount &&
+        locationsToExploreCount == other.locationsToExploreCount &&
+        knownBadLocationsCount == other.knownBadLocationsCount &&
+        gridFilledPercentage == other.gridFilledPercentage;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, wordsInGridCount.hashCode);
+    _$hash = $jc(_$hash, candidateWordsCount.hashCode);
+    _$hash = $jc(_$hash, locationsToExploreCount.hashCode);
+    _$hash = $jc(_$hash, knownBadLocationsCount.hashCode);
+    _$hash = $jc(_$hash, gridFilledPercentage.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'DisplayInfo')
+          ..add('wordsInGridCount', wordsInGridCount)
+          ..add('candidateWordsCount', candidateWordsCount)
+          ..add('locationsToExploreCount', locationsToExploreCount)
+          ..add('knownBadLocationsCount', knownBadLocationsCount)
+          ..add('gridFilledPercentage', gridFilledPercentage))
+        .toString();
+  }
+}
+
+class DisplayInfoBuilder implements Builder<DisplayInfo, DisplayInfoBuilder> {
+  _$DisplayInfo? _$v;
+
+  String? _wordsInGridCount;
+  String? get wordsInGridCount => _$this._wordsInGridCount;
+  set wordsInGridCount(String? wordsInGridCount) =>
+      _$this._wordsInGridCount = wordsInGridCount;
+
+  String? _candidateWordsCount;
+  String? get candidateWordsCount => _$this._candidateWordsCount;
+  set candidateWordsCount(String? candidateWordsCount) =>
+      _$this._candidateWordsCount = candidateWordsCount;
+
+  String? _locationsToExploreCount;
+  String? get locationsToExploreCount => _$this._locationsToExploreCount;
+  set locationsToExploreCount(String? locationsToExploreCount) =>
+      _$this._locationsToExploreCount = locationsToExploreCount;
+
+  String? _knownBadLocationsCount;
+  String? get knownBadLocationsCount => _$this._knownBadLocationsCount;
+  set knownBadLocationsCount(String? knownBadLocationsCount) =>
+      _$this._knownBadLocationsCount = knownBadLocationsCount;
+
+  String? _gridFilledPercentage;
+  String? get gridFilledPercentage => _$this._gridFilledPercentage;
+  set gridFilledPercentage(String? gridFilledPercentage) =>
+      _$this._gridFilledPercentage = gridFilledPercentage;
+
+  DisplayInfoBuilder();
+
+  DisplayInfoBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _wordsInGridCount = $v.wordsInGridCount;
+      _candidateWordsCount = $v.candidateWordsCount;
+      _locationsToExploreCount = $v.locationsToExploreCount;
+      _knownBadLocationsCount = $v.knownBadLocationsCount;
+      _gridFilledPercentage = $v.gridFilledPercentage;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(DisplayInfo other) {
+    _$v = other as _$DisplayInfo;
+  }
+
+  @override
+  void update(void Function(DisplayInfoBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  DisplayInfo build() => _build();
+
+  _$DisplayInfo _build() {
+    final _$result =
+        _$v ??
+        _$DisplayInfo._(
+          wordsInGridCount: BuiltValueNullFieldError.checkNotNull(
+            wordsInGridCount,
+            r'DisplayInfo',
+            'wordsInGridCount',
+          ),
+          candidateWordsCount: BuiltValueNullFieldError.checkNotNull(
+            candidateWordsCount,
+            r'DisplayInfo',
+            'candidateWordsCount',
+          ),
+          locationsToExploreCount: BuiltValueNullFieldError.checkNotNull(
+            locationsToExploreCount,
+            r'DisplayInfo',
+            'locationsToExploreCount',
+          ),
+          knownBadLocationsCount: BuiltValueNullFieldError.checkNotNull(
+            knownBadLocationsCount,
+            r'DisplayInfo',
+            'knownBadLocationsCount',
+          ),
+          gridFilledPercentage: BuiltValueNullFieldError.checkNotNull(
+            gridFilledPercentage,
+            r'DisplayInfo',
+            'gridFilledPercentage',
+          ),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GameUser extends GameUser {
+  @override
+  final String username;
+  @override
+  final int bestScore;
+  @override
+  final int gamesCompleted;
+  @override
+  final DateTime? lastPlayed;
+
+  factory _$GameUser([void Function(GameUserBuilder)? updates]) =>
+      (GameUserBuilder()..update(updates))._build();
+
+  _$GameUser._({
+    required this.username,
+    required this.bestScore,
+    required this.gamesCompleted,
+    this.lastPlayed,
+  }) : super._();
+  @override
+  GameUser rebuild(void Function(GameUserBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GameUserBuilder toBuilder() => GameUserBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GameUser &&
+        username == other.username &&
+        bestScore == other.bestScore &&
+        gamesCompleted == other.gamesCompleted &&
+        lastPlayed == other.lastPlayed;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, username.hashCode);
+    _$hash = $jc(_$hash, bestScore.hashCode);
+    _$hash = $jc(_$hash, gamesCompleted.hashCode);
+    _$hash = $jc(_$hash, lastPlayed.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GameUser')
+          ..add('username', username)
+          ..add('bestScore', bestScore)
+          ..add('gamesCompleted', gamesCompleted)
+          ..add('lastPlayed', lastPlayed))
+        .toString();
+  }
+}
+
+class GameUserBuilder implements Builder<GameUser, GameUserBuilder> {
+  _$GameUser? _$v;
+
+  String? _username;
+  String? get username => _$this._username;
+  set username(String? username) => _$this._username = username;
+
+  int? _bestScore;
+  int? get bestScore => _$this._bestScore;
+  set bestScore(int? bestScore) => _$this._bestScore = bestScore;
+
+  int? _gamesCompleted;
+  int? get gamesCompleted => _$this._gamesCompleted;
+  set gamesCompleted(int? gamesCompleted) =>
+      _$this._gamesCompleted = gamesCompleted;
+
+  DateTime? _lastPlayed;
+  DateTime? get lastPlayed => _$this._lastPlayed;
+  set lastPlayed(DateTime? lastPlayed) => _$this._lastPlayed = lastPlayed;
+
+  GameUserBuilder();
+
+  GameUserBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _username = $v.username;
+      _bestScore = $v.bestScore;
+      _gamesCompleted = $v.gamesCompleted;
+      _lastPlayed = $v.lastPlayed;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GameUser other) {
+    _$v = other as _$GameUser;
+  }
+
+  @override
+  void update(void Function(GameUserBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GameUser build() => _build();
+
+  _$GameUser _build() {
+    final _$result =
+        _$v ??
+        _$GameUser._(
+          username: BuiltValueNullFieldError.checkNotNull(
+            username,
+            r'GameUser',
+            'username',
+          ),
+          bestScore: BuiltValueNullFieldError.checkNotNull(
+            bestScore,
+            r'GameUser',
+            'bestScore',
+          ),
+          gamesCompleted: BuiltValueNullFieldError.checkNotNull(
+            gamesCompleted,
+            r'GameUser',
+            'gamesCompleted',
+          ),
+          lastPlayed: lastPlayed,
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GameSession extends GameSession {
+  @override
+  final GameUser user;
+  @override
+  final DateTime startTime;
+  @override
+  final int wordsFound;
+  @override
+  final int currentScore;
+  @override
+  final bool isPlaying;
+
+  factory _$GameSession([void Function(GameSessionBuilder)? updates]) =>
+      (GameSessionBuilder()..update(updates))._build();
+
+  _$GameSession._({
+    required this.user,
+    required this.startTime,
+    required this.wordsFound,
+    required this.currentScore,
+    required this.isPlaying,
+  }) : super._();
+  @override
+  GameSession rebuild(void Function(GameSessionBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GameSessionBuilder toBuilder() => GameSessionBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GameSession &&
+        user == other.user &&
+        startTime == other.startTime &&
+        wordsFound == other.wordsFound &&
+        currentScore == other.currentScore &&
+        isPlaying == other.isPlaying;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, user.hashCode);
+    _$hash = $jc(_$hash, startTime.hashCode);
+    _$hash = $jc(_$hash, wordsFound.hashCode);
+    _$hash = $jc(_$hash, currentScore.hashCode);
+    _$hash = $jc(_$hash, isPlaying.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GameSession')
+          ..add('user', user)
+          ..add('startTime', startTime)
+          ..add('wordsFound', wordsFound)
+          ..add('currentScore', currentScore)
+          ..add('isPlaying', isPlaying))
+        .toString();
+  }
+}
+
+class GameSessionBuilder implements Builder<GameSession, GameSessionBuilder> {
+  _$GameSession? _$v;
+
+  GameUserBuilder? _user;
+  GameUserBuilder get user => _$this._user ??= GameUserBuilder();
+  set user(GameUserBuilder? user) => _$this._user = user;
+
+  DateTime? _startTime;
+  DateTime? get startTime => _$this._startTime;
+  set startTime(DateTime? startTime) => _$this._startTime = startTime;
+
+  int? _wordsFound;
+  int? get wordsFound => _$this._wordsFound;
+  set wordsFound(int? wordsFound) => _$this._wordsFound = wordsFound;
+
+  int? _currentScore;
+  int? get currentScore => _$this._currentScore;
+  set currentScore(int? currentScore) => _$this._currentScore = currentScore;
+
+  bool? _isPlaying;
+  bool? get isPlaying => _$this._isPlaying;
+  set isPlaying(bool? isPlaying) => _$this._isPlaying = isPlaying;
+
+  GameSessionBuilder();
+
+  GameSessionBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _user = $v.user.toBuilder();
+      _startTime = $v.startTime;
+      _wordsFound = $v.wordsFound;
+      _currentScore = $v.currentScore;
+      _isPlaying = $v.isPlaying;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GameSession other) {
+    _$v = other as _$GameSession;
+  }
+
+  @override
+  void update(void Function(GameSessionBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GameSession build() => _build();
+
+  _$GameSession _build() {
+    _$GameSession _$result;
+    try {
+      _$result =
+          _$v ??
+          _$GameSession._(
+            user: user.build(),
+            startTime: BuiltValueNullFieldError.checkNotNull(
+              startTime,
+              r'GameSession',
+              'startTime',
+            ),
+            wordsFound: BuiltValueNullFieldError.checkNotNull(
+              wordsFound,
+              r'GameSession',
+              'wordsFound',
+            ),
+            currentScore: BuiltValueNullFieldError.checkNotNull(
+              currentScore,
+              r'GameSession',
+              'currentScore',
+            ),
+            isPlaying: BuiltValueNullFieldError.checkNotNull(
+              isPlaying,
+              r'GameSession',
+              'isPlaying',
+            ),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'user';
+        user.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+          r'GameSession',
+          _$failedField,
+          e.toString(),
+        );
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint
