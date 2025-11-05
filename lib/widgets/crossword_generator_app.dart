@@ -572,10 +572,10 @@ class _CrosswordGeneratorMenu extends ConsumerWidget {
         title: Row(
           children: [
             const Icon(Icons.warning, color: Colors.red),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Advertencia de Rendimiento',
+                'Advertencia',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),

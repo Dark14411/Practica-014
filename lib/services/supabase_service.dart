@@ -457,12 +457,10 @@ class SupabaseService {
 
       debugPrint('Fetching words from Supabase...');
 
-      // Intenta obtener las palabras de la tabla 'words'
-      // Asume que tienes una tabla llamada 'words' con una columna 'word'
+      // Obtiene TODAS las palabras de la tabla 'words'
       final response = await _client
           .from('words')
           .select('word')
-          .inFilter('word', customWords)
           .timeout(const Duration(seconds: 10));
 
       if (response.isEmpty) {
@@ -522,12 +520,11 @@ class SupabaseService {
       return BuiltSet<String>.build((b) => b.addAll(selectedWords));
     }
 
-    // Combinar palabras de Supabase con las seleccionadas para hacerlo más difícil
-    final combinedWords = {...selectedWords, ...supabaseWords};
+    // MODO ONLINE: Usar SOLO palabras de Supabase (sin mezclar con base)
     debugPrint(
-      '🟢 ONLINE MODE: Using ${combinedWords.length} words (${supabaseWords.length} from Supabase + ${selectedWords.length} base)',
+      '🟢 ONLINE MODE: Using ONLY ${supabaseWords.length} words from Supabase',
     );
-    return BuiltSet<String>.build((b) => b.addAll(combinedWords));
+    return BuiltSet<String>.build((b) => b.addAll(supabaseWords));
   }
 
   /// Obtiene palabras combinadas: Supabase + locales (DEPRECATED - usar fetchWords)
@@ -555,8 +552,13 @@ class SupabaseService {
   /// ('secuaz'),
   /// ('nino'),
   /// ('celismor'),
-  /// ('wesuangelito')
+  /// ('wesuangelito'),
+  /// ('azuna'),
+  /// ('carlos'),
+  /// ('minecraft')
   /// ON CONFLICT (word) DO NOTHING;
+  ///
+  /// NOTA: Ahora se cargan TODAS las palabras de la tabla, no solo las de customWords
   ///
 
   /// Obtiene solo las palabras de la base de datos (para colorear)
