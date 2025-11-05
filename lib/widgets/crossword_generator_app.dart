@@ -569,32 +569,39 @@ class _CrosswordGeneratorMenu extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.warning, color: Colors.red),
-            SizedBox(width: 12),
-            Text('Advertencia de Rendimiento'),
+            const Icon(Icons.warning, color: Colors.red),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Advertencia de Rendimiento',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'El tamaño ${entry.label} puede causar que la aplicación se congele durante la generación del crucigrama.',
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'Recomendaciones:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              '• Usa tamaños "small" o "medium" para mejor rendimiento',
-            ),
-            const Text('• Reduce el número de workers a 1-2'),
-            const Text('• La generación puede tardar varios minutos'),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'El tamaño ${entry.label} puede causar que la aplicación se congele durante la generación del crucigrama.',
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Recomendaciones:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                '• Usa tamaños "small" o "medium" para mejor rendimiento',
+              ),
+              const Text('• Reduce el número de workers a 1-2'),
+              const Text('• La generación puede tardar varios minutos'),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -609,8 +616,10 @@ class _CrosswordGeneratorMenu extends ConsumerWidget {
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('¿Continuar de todos modos?'),
-                  content: const Text(
-                    'La aplicación puede congelarse. ¿Quieres continuar?',
+                  content: const SingleChildScrollView(
+                    child: Text(
+                      'La aplicación puede congelarse. ¿Quieres continuar?',
+                    ),
                   ),
                   actions: [
                     TextButton(
