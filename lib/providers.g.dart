@@ -6,13 +6,13 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$wordListHash() => r'd6911387a4737c8f76d0f51b7872c41c9c74fe63';
+String _$wordListHash() => r'1d480b55e657521cd2e0a4dbaa3c2f70f32d87d8';
 
 /// A provider for the wordlist to use when generating the crossword.
 ///
 /// Copied from [wordList].
 @ProviderFor(wordList)
-final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
+final wordListProvider = FutureProvider<BuiltSet<String>>.internal(
   wordList,
   name: r'wordListProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -24,7 +24,26 @@ final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef WordListRef = AutoDisposeFutureProviderRef<BuiltSet<String>>;
+typedef WordListRef = FutureProviderRef<BuiltSet<String>>;
+String _$databaseWordsHash() => r'a391487361c0d507af44b76fa0c4da0e4becaae6';
+
+/// A provider that tracks which words come from the database
+///
+/// Copied from [databaseWords].
+@ProviderFor(databaseWords)
+final databaseWordsProvider = FutureProvider<BuiltSet<String>>.internal(
+  databaseWords,
+  name: r'databaseWordsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$databaseWordsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef DatabaseWordsRef = FutureProviderRef<BuiltSet<String>>;
 String _$workQueueHash() => r'd64b52aeccabc44e3455c02e05183b8028571d72';
 
 /// See also [workQueue].
@@ -119,6 +138,25 @@ final displayInfoProvider = AutoDisposeProvider<model.DisplayInfo>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DisplayInfoRef = AutoDisposeProviderRef<model.DisplayInfo>;
+String _$targetWordsHash() => r'd954af0a52ff0b6ed0aee340baff4ddc8151e6dd';
+
+/// Provider que genera palabras objetivo aleatorias del crucigrama
+///
+/// Copied from [targetWords].
+@ProviderFor(targetWords)
+final targetWordsProvider = AutoDisposeProvider<BuiltSet<String>>.internal(
+  targetWords,
+  name: r'targetWordsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$targetWordsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef TargetWordsRef = AutoDisposeProviderRef<BuiltSet<String>>;
 String _$sizeHash() => r'e551985965bf4119e8d90c0e8aa4f4d68a555b73';
 
 /// A provider that holds the current size of the crossword to generate.
@@ -136,7 +174,7 @@ final sizeProvider = NotifierProvider<Size, CrosswordSize>.internal(
 );
 
 typedef _$Size = Notifier<CrosswordSize>;
-String _$workerCountHash() => r'36dad09ba2cfe03b0879e7bf20059cec12e5118c';
+String _$workerCountHash() => r'1764b62ee4e611996ec24f68605da910aa7fbdec';
 
 /// A provider that holds the current number of background workers to use.
 ///

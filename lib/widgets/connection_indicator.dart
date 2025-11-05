@@ -49,25 +49,11 @@ class _ConnectionIndicatorState extends ConsumerState<ConnectionIndicator> {
           ? 'Conectado a Supabase - Palabras personalizadas activas'
           : 'Sin conexión - Usando palabras locales',
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              _isOnline ? Icons.cloud_done : Icons.cloud_off,
-              color: _isOnline ? Colors.green : Colors.orange,
-              size: 20,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              _isOnline ? 'Online' : 'Local',
-              style: TextStyle(
-                fontSize: 12,
-                color: _isOnline ? Colors.green : Colors.orange,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+        padding: const EdgeInsets.all(4.0),
+        child: Icon(
+          _isOnline ? Icons.cloud_done : Icons.cloud_off,
+          color: _isOnline ? Colors.green : Colors.orange,
+          size: 16,
         ),
       ),
     );

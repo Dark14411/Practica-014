@@ -15,6 +15,7 @@ Serializers _$serializers =
           ..add(GameSession.serializer)
           ..add(GameUser.serializer)
           ..add(Location.serializer)
+          ..add(WordInfo.serializer)
           ..add(WorkQueue.serializer)
           ..addBuilderFactory(
             const FullType(BuiltList, const [const FullType(CrosswordWord)]),
@@ -41,6 +42,14 @@ Serializers _$serializers =
           ..addBuilderFactory(
             const FullType(BuiltSet, const [const FullType(String)]),
             () => SetBuilder<String>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltSet, const [const FullType(String)]),
+            () => SetBuilder<String>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltSet, const [const FullType(String)]),
+            () => SetBuilder<String>(),
           ))
         .build();
 Serializer<Location> _$locationSerializer = _$LocationSerializer();
@@ -53,6 +62,7 @@ Serializer<WorkQueue> _$workQueueSerializer = _$WorkQueueSerializer();
 Serializer<DisplayInfo> _$displayInfoSerializer = _$DisplayInfoSerializer();
 Serializer<GameUser> _$gameUserSerializer = _$GameUserSerializer();
 Serializer<GameSession> _$gameSessionSerializer = _$GameSessionSerializer();
+Serializer<WordInfo> _$wordInfoSerializer = _$WordInfoSerializer();
 
 class _$LocationSerializer implements StructuredSerializer<Location> {
   @override
@@ -720,6 +730,16 @@ class _$GameSessionSerializer implements StructuredSerializer<GameSession> {
         object.isPlaying,
         specifiedType: const FullType(bool),
       ),
+      'target_words',
+      serializers.serialize(
+        object.targetWords,
+        specifiedType: const FullType(BuiltSet, const [const FullType(String)]),
+      ),
+      'found_words',
+      serializers.serialize(
+        object.foundWords,
+        specifiedType: const FullType(BuiltSet, const [const FullType(String)]),
+      ),
     ];
 
     return result;
@@ -774,6 +794,90 @@ class _$GameSessionSerializer implements StructuredSerializer<GameSession> {
           break;
         case 'isPlaying':
           result.isPlaying =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
+          break;
+        case 'target_words':
+          result.targetWords.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltSet, const [
+                    const FullType(String),
+                  ]),
+                )!
+                as BuiltSet<Object?>,
+          );
+          break;
+        case 'found_words':
+          result.foundWords.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltSet, const [
+                    const FullType(String),
+                  ]),
+                )!
+                as BuiltSet<Object?>,
+          );
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$WordInfoSerializer implements StructuredSerializer<WordInfo> {
+  @override
+  final Iterable<Type> types = const [WordInfo, _$WordInfo];
+  @override
+  final String wireName = 'WordInfo';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    WordInfo object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'word',
+      serializers.serialize(object.word, specifiedType: const FullType(String)),
+      'isFromDatabase',
+      serializers.serialize(
+        object.isFromDatabase,
+        specifiedType: const FullType(bool),
+      ),
+    ];
+
+    return result;
+  }
+
+  @override
+  WordInfo deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = WordInfoBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'word':
+          result.word =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'isFromDatabase':
+          result.isFromDatabase =
               serializers.deserialize(
                     value,
                     specifiedType: const FullType(bool),
@@ -1733,6 +1837,10 @@ class _$GameSession extends GameSession {
   final int currentScore;
   @override
   final bool isPlaying;
+  @override
+  final BuiltSet<String> targetWords;
+  @override
+  final BuiltSet<String> foundWords;
 
   factory _$GameSession([void Function(GameSessionBuilder)? updates]) =>
       (GameSessionBuilder()..update(updates))._build();
@@ -1743,6 +1851,8 @@ class _$GameSession extends GameSession {
     required this.wordsFound,
     required this.currentScore,
     required this.isPlaying,
+    required this.targetWords,
+    required this.foundWords,
   }) : super._();
   @override
   GameSession rebuild(void Function(GameSessionBuilder) updates) =>
@@ -1759,7 +1869,9 @@ class _$GameSession extends GameSession {
         startTime == other.startTime &&
         wordsFound == other.wordsFound &&
         currentScore == other.currentScore &&
-        isPlaying == other.isPlaying;
+        isPlaying == other.isPlaying &&
+        targetWords == other.targetWords &&
+        foundWords == other.foundWords;
   }
 
   @override
@@ -1770,6 +1882,8 @@ class _$GameSession extends GameSession {
     _$hash = $jc(_$hash, wordsFound.hashCode);
     _$hash = $jc(_$hash, currentScore.hashCode);
     _$hash = $jc(_$hash, isPlaying.hashCode);
+    _$hash = $jc(_$hash, targetWords.hashCode);
+    _$hash = $jc(_$hash, foundWords.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1781,7 +1895,9 @@ class _$GameSession extends GameSession {
           ..add('startTime', startTime)
           ..add('wordsFound', wordsFound)
           ..add('currentScore', currentScore)
-          ..add('isPlaying', isPlaying))
+          ..add('isPlaying', isPlaying)
+          ..add('targetWords', targetWords)
+          ..add('foundWords', foundWords))
         .toString();
   }
 }
@@ -1809,6 +1925,18 @@ class GameSessionBuilder implements Builder<GameSession, GameSessionBuilder> {
   bool? get isPlaying => _$this._isPlaying;
   set isPlaying(bool? isPlaying) => _$this._isPlaying = isPlaying;
 
+  SetBuilder<String>? _targetWords;
+  SetBuilder<String> get targetWords =>
+      _$this._targetWords ??= SetBuilder<String>();
+  set targetWords(SetBuilder<String>? targetWords) =>
+      _$this._targetWords = targetWords;
+
+  SetBuilder<String>? _foundWords;
+  SetBuilder<String> get foundWords =>
+      _$this._foundWords ??= SetBuilder<String>();
+  set foundWords(SetBuilder<String>? foundWords) =>
+      _$this._foundWords = foundWords;
+
   GameSessionBuilder();
 
   GameSessionBuilder get _$this {
@@ -1819,6 +1947,8 @@ class GameSessionBuilder implements Builder<GameSession, GameSessionBuilder> {
       _wordsFound = $v.wordsFound;
       _currentScore = $v.currentScore;
       _isPlaying = $v.isPlaying;
+      _targetWords = $v.targetWords.toBuilder();
+      _foundWords = $v.foundWords.toBuilder();
       _$v = null;
     }
     return this;
@@ -1864,12 +1994,19 @@ class GameSessionBuilder implements Builder<GameSession, GameSessionBuilder> {
               r'GameSession',
               'isPlaying',
             ),
+            targetWords: targetWords.build(),
+            foundWords: foundWords.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'user';
         user.build();
+
+        _$failedField = 'targetWords';
+        targetWords.build();
+        _$failedField = 'foundWords';
+        foundWords.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
           r'GameSession',
@@ -1879,6 +2016,106 @@ class GameSessionBuilder implements Builder<GameSession, GameSessionBuilder> {
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$WordInfo extends WordInfo {
+  @override
+  final String word;
+  @override
+  final bool isFromDatabase;
+
+  factory _$WordInfo([void Function(WordInfoBuilder)? updates]) =>
+      (WordInfoBuilder()..update(updates))._build();
+
+  _$WordInfo._({required this.word, required this.isFromDatabase}) : super._();
+  @override
+  WordInfo rebuild(void Function(WordInfoBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  WordInfoBuilder toBuilder() => WordInfoBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is WordInfo &&
+        word == other.word &&
+        isFromDatabase == other.isFromDatabase;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, word.hashCode);
+    _$hash = $jc(_$hash, isFromDatabase.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'WordInfo')
+          ..add('word', word)
+          ..add('isFromDatabase', isFromDatabase))
+        .toString();
+  }
+}
+
+class WordInfoBuilder implements Builder<WordInfo, WordInfoBuilder> {
+  _$WordInfo? _$v;
+
+  String? _word;
+  String? get word => _$this._word;
+  set word(String? word) => _$this._word = word;
+
+  bool? _isFromDatabase;
+  bool? get isFromDatabase => _$this._isFromDatabase;
+  set isFromDatabase(bool? isFromDatabase) =>
+      _$this._isFromDatabase = isFromDatabase;
+
+  WordInfoBuilder();
+
+  WordInfoBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _word = $v.word;
+      _isFromDatabase = $v.isFromDatabase;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(WordInfo other) {
+    _$v = other as _$WordInfo;
+  }
+
+  @override
+  void update(void Function(WordInfoBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  WordInfo build() => _build();
+
+  _$WordInfo _build() {
+    final _$result =
+        _$v ??
+        _$WordInfo._(
+          word: BuiltValueNullFieldError.checkNotNull(
+            word,
+            r'WordInfo',
+            'word',
+          ),
+          isFromDatabase: BuiltValueNullFieldError.checkNotNull(
+            isFromDatabase,
+            r'WordInfo',
+            'isFromDatabase',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

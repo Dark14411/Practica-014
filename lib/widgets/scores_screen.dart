@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/user_service.dart';
+import '../services/player_service.dart';
 import '../model.dart';
 
 class ScoresScreen extends ConsumerWidget {
@@ -14,7 +14,7 @@ class ScoresScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.watch(currentUserProvider);
+    final currentPlayer = ref.watch(currentPlayerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +26,7 @@ class ScoresScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (currentUser != null) ...[
+            if (currentPlayer != null) ...[
               Card(
                 elevation: 4,
                 child: Padding(
@@ -37,7 +37,7 @@ class ScoresScreen extends ConsumerWidget {
                         radius: 40,
                         backgroundColor: Colors.blueGrey.shade700,
                         child: Text(
-                          currentUser.username[0].toUpperCase(),
+                          currentPlayer.username[0].toUpperCase(),
                           style: const TextStyle(
                             fontSize: 36,
                             color: Colors.white,
@@ -47,7 +47,7 @@ class ScoresScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        currentUser.username,
+                        currentPlayer.username,
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -60,23 +60,23 @@ class ScoresScreen extends ConsumerWidget {
                           _StatCard(
                             icon: Icons.emoji_events,
                             label: 'Mejor Tiempo',
-                            value: currentUser.bestScore > 0
-                                ? _formatTime(currentUser.bestScore)
+                            value: currentPlayer.bestScore > 0
+                                ? _formatTime(currentPlayer.bestScore)
                                 : 'N/A',
                             color: Colors.amber,
                           ),
                           _StatCard(
                             icon: Icons.games,
                             label: 'Juegos',
-                            value: '${currentUser.gamesCompleted}',
+                            value: '${currentPlayer.gamesCompleted}',
                             color: Colors.blue,
                           ),
                         ],
                       ),
-                      if (currentUser.lastPlayed != null) ...[
+                      if (currentPlayer.lastPlayed != null) ...[
                         const SizedBox(height: 16),
                         Text(
-                          'Último juego: ${_formatDate(currentUser.lastPlayed!)}',
+                          'Último juego: ${_formatDate(currentPlayer.lastPlayed!)}',
                           style: TextStyle(
                             color: Colors.grey.shade600,
                             fontSize: 14,
@@ -95,7 +95,7 @@ class ScoresScreen extends ConsumerWidget {
               const SizedBox(height: 16),
             ],
             FutureBuilder<List<GameUser>>(
-              future: UserService.getAllUsers(),
+              future: PlayerService.getAllPlayers(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -135,11 +135,11 @@ class ScoresScreen extends ConsumerWidget {
                   itemCount: sortedUsers.length,
                   itemBuilder: (context, index) {
                     final user = sortedUsers[index];
-                    final isCurrentUser =
-                        currentUser?.username == user.username;
+                    final iscurrentPlayer =
+                        currentPlayer?.username == user.username;
 
                     return Card(
-                      color: isCurrentUser ? Colors.blueGrey.shade50 : null,
+                      color: iscurrentPlayer ? Colors.blueGrey.shade50 : null,
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundColor: _getRankColor(index),
@@ -154,7 +154,7 @@ class ScoresScreen extends ConsumerWidget {
                         title: Text(
                           user.username,
                           style: TextStyle(
-                            fontWeight: isCurrentUser
+                            fontWeight: iscurrentPlayer
                                 ? FontWeight.bold
                                 : FontWeight.normal,
                           ),

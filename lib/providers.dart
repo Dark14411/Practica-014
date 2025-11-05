@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,7 +13,7 @@ import 'services/supabase_service.dart';
 part 'providers.g.dart';
 
 /// A provider for the wordlist to use when generating the crossword.
-@riverpod
+@Riverpod(keepAlive: true)
 Future<BuiltSet<String>> wordList(Ref ref) async {
   // Obtiene palabras según modo: ONLINE = Supabase, OFFLINE = aleatorias
   final words = await SupabaseService.fetchWords();
@@ -22,19 +23,44 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
   return words;
 }
 
+/// A provider that tracks which words come from the database
+@Riverpod(keepAlive: true)
+Future<BuiltSet<String>> databaseWords(Ref ref) async {
+  final dbWords = await SupabaseService.fetchDatabaseWords();
+  return dbWords;
+}
+
 /// An enumeration for different sizes of [model.Crossword]s.
 enum CrosswordSize {
   small(width: 20, height: 11),
   medium(width: 40, height: 22),
-  large(width: 80, height: 44),
-  xlarge(width: 160, height: 88),
-  xxlarge(width: 500, height: 500);
+  large(width: 60, height: 33),
+  xlarge(width: 80, height: 44);
 
   const CrosswordSize({required this.width, required this.height});
 
   final int width;
   final int height;
   String get label => '$width x $height';
+
+  /// Verifica si el tamaño es adecuado para el rendimiento
+  bool get isPerformanceSafe => width * height <= 60 * 33;
+
+  /// Tiempo máximo recomendado para este tamaño (en segundos)
+  int get recommendedTimeout => switch (this) {
+    CrosswordSize.small => 5,
+    CrosswordSize.medium => 10,
+    CrosswordSize.large => 20,
+    CrosswordSize.xlarge => 30,
+  };
+
+  /// Número máximo de workers recomendado para este tamaño
+  int get maxRecommendedWorkers => switch (this) {
+    CrosswordSize.small => 8,
+    CrosswordSize.medium => 4,
+    CrosswordSize.large => 2,
+    CrosswordSize.xlarge => 1,
+  };
 }
 
 /// A provider that holds the current size of the crossword to generate.
@@ -167,5 +193,92 @@ class WorkerCount extends _$WorkerCount {
   void setCount(BackgroundWorkers count) {
     _count = count;
     ref.invalidateSelf();
+  }
+
+  /// Ajusta automáticamente el número de workers basado en el tamaño del grid
+  void optimizeForSize(CrosswordSize size) {
+    final recommended = size.maxRecommendedWorkers;
+    final currentOptimal =
+        BackgroundWorkers.values
+            .where((w) => w.count <= recommended)
+            .lastOrNull ??
+        BackgroundWorkers.one;
+
+    if (_count.count > recommended) {
+      setCount(currentOptimal);
+    }
+  }
+}
+
+/// Provider que genera palabras objetivo aleatorias del crucigrama
+@riverpod
+BuiltSet<String> targetWords(Ref ref) {
+  final workQueueAsync = ref.watch(workQueueProvider);
+
+  if (workQueueAsync is AsyncData<model.WorkQueue>) {
+    final crossword = workQueueAsync.value.crossword;
+    final allWords = <String>[];
+
+    // Recopilar todas las palabras del crucigrama
+    for (final word in crossword.words) {
+      allWords.add(word.word.toLowerCase());
+    }
+
+    if (allWords.isEmpty) {
+      return BuiltSet<String>();
+    }
+
+    // Seleccionar entre 5 y 10 palabras aleatorias (o todas si hay menos)
+    final random = Random();
+    final targetCount = min(
+      allWords.length,
+      5 + random.nextInt(6),
+    ); // 5-10 palabras
+    allWords.shuffle(random);
+
+    return BuiltSet<String>(allWords.take(targetCount));
+  }
+
+  return BuiltSet<String>();
+}
+
+/// Provider para controlar la cancelación de la generación del crucigrama
+final generationCancellationProvider = StateProvider<bool>((ref) => false);
+
+/// Provider para el temporizador del juego (cuenta regresiva)
+final gameTimerProvider = StateNotifierProvider<GameTimerNotifier, int>((ref) {
+  return GameTimerNotifier();
+});
+
+class GameTimerNotifier extends StateNotifier<int> {
+  GameTimerNotifier() : super(0);
+
+  /// Inicia el temporizador con un tiempo inicial (en segundos)
+  void start({int initialSeconds = 120}) {
+    state = initialSeconds; // 2 minutos por defecto
+  }
+
+  /// Agrega tiempo al temporizador (15 segundos por palabra encontrada)
+  void addTime({int seconds = 15}) {
+    if (state > 0) {
+      state = state + seconds;
+    }
+  }
+
+  /// Cuenta regresiva (llamar cada segundo)
+  void tick() {
+    if (state > 0) {
+      state = state - 1;
+    }
+  }
+
+  /// Detiene el temporizador
+  void stop() {
+    state = 0;
+  }
+
+  /// Resetea el temporizador
+  void reset() {
+    state = 0;
   }
 }

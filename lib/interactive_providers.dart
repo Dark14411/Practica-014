@@ -24,4 +24,6 @@ class DiscoveredWordsNotifier extends StateNotifier<BuiltSet<String>> {
 }
 
 /// Provider que indica si el crucigrama está en modo interactivo (oculto)
-final interactiveModeProvider = StateProvider<bool>((ref) => true);
+final interactiveModeProvider = StateProvider<bool>(
+  (ref) => true,
+); // Activado por defecto - las letras están ocultas hasta hacer clic

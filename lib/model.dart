@@ -422,10 +422,11 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
   }) => WorkQueue((b) {
     if (crossword.words.isEmpty) {
       // Strip candidate words too long to fit in the crossword
+      final maxDimension = crossword.width > crossword.height
+          ? crossword.width
+          : crossword.height;
       b.candidateWords.addAll(
-        candidateWords.where(
-          (word) => word.characters.length <= crossword.width,
-        ),
+        candidateWords.where((word) => word.characters.length <= maxDimension),
       );
 
       b.crossword.replace(crossword);
@@ -593,34 +594,80 @@ abstract class GameSession implements Built<GameSession, GameSessionBuilder> {
   /// Palabras encontradas en esta sesión
   int get wordsFound;
 
-  /// Score actual (tiempo en segundos)
+  /// Score actual (puntos acumulados)
   int get currentScore;
 
   /// Si el juego está en progreso
   bool get isPlaying;
 
+  /// Palabras objetivo que el jugador debe encontrar
+  @BuiltValueField(wireName: 'target_words')
+  BuiltSet<String> get targetWords;
+
+  /// Palabras objetivo ya encontradas
+  @BuiltValueField(wireName: 'found_words')
+  BuiltSet<String> get foundWords;
+
   factory GameSession([void Function(GameSessionBuilder)? updates]) =
       _$GameSession;
   GameSession._();
 
-  factory GameSession.start(GameUser user) => GameSession(
-    (b) => b
-      ..user = user.toBuilder()
-      ..startTime = DateTime.now()
-      ..wordsFound = 0
-      ..currentScore = 0
-      ..isPlaying = true,
-  );
+  factory GameSession.start(GameUser user, {BuiltSet<String>? targetWords}) =>
+      GameSession(
+        (b) => b
+          ..user = user.toBuilder()
+          ..startTime = DateTime.now()
+          ..wordsFound = 0
+          ..currentScore = 0
+          ..isPlaying = true
+          ..targetWords = (targetWords ?? BuiltSet<String>()).toBuilder()
+          ..foundWords = BuiltSet<String>().toBuilder(),
+      );
+
+  /// Obtiene el tiempo transcurrido en segundos
+  int get timeElapsed {
+    return DateTime.now().difference(startTime).inSeconds;
+  }
 
   /// Actualiza el score basado en el tiempo transcurrido
   GameSession updateScore() {
-    final elapsed = DateTime.now().difference(startTime).inSeconds;
-    return rebuild((b) => b..currentScore = elapsed);
+    return this; // El score ahora es acumulativo, no basado en tiempo
   }
 
   /// Incrementa palabras encontradas
   GameSession incrementWordsFound() {
     return rebuild((b) => b..wordsFound = wordsFound + 1);
+  }
+
+  /// Agrega una palabra encontrada con su puntuación
+  GameSession addFoundWord(String word, int points) {
+    final newFoundWords = foundWords.rebuild((b) => b.add(word.toLowerCase()));
+    final newScore = currentScore + points;
+    final newWordsFound = wordsFound + 1;
+
+    return rebuild(
+      (b) => b
+        ..foundWords = newFoundWords.toBuilder()
+        ..currentScore = newScore
+        ..wordsFound = newWordsFound,
+    );
+  }
+
+  /// Verifica si una palabra ya fue encontrada
+  bool hasFoundWord(String word) {
+    return foundWords.contains(word.toLowerCase());
+  }
+
+  /// Obtiene la cantidad de palabras objetivo
+  int get targetWordCount => targetWords.length;
+
+  /// Verifica si completó todas las palabras objetivo
+  bool get isCompleted => foundWords.length >= targetWords.length;
+
+  /// Obtiene el porcentaje de progreso
+  double get progressPercentage {
+    if (targetWords.isEmpty) return 0.0;
+    return (foundWords.length / targetWords.length).clamp(0.0, 1.0);
   }
 
   /// Finaliza el juego y actualiza el usuario
@@ -630,8 +677,8 @@ abstract class GameSession implements Built<GameSession, GameSessionBuilder> {
         ..gamesCompleted = user.gamesCompleted + 1
         ..lastPlayed = DateTime.now();
 
-      // Actualizar mejor score (menor tiempo es mejor)
-      if (user.bestScore == 0 || currentScore < user.bestScore) {
+      // Actualizar mejor score (mayor puntuación es mejor)
+      if (currentScore > user.bestScore) {
         b.bestScore = currentScore;
       }
     });
@@ -644,6 +691,27 @@ abstract class GameSession implements Built<GameSession, GameSessionBuilder> {
   }
 }
 
+/// Información sobre una palabra y su origen
+abstract class WordInfo implements Built<WordInfo, WordInfoBuilder> {
+  static Serializer<WordInfo> get serializer => _$wordInfoSerializer;
+
+  /// La palabra
+  String get word;
+
+  /// Si la palabra viene de la base de datos de Supabase
+  bool get isFromDatabase;
+
+  factory WordInfo([void Function(WordInfoBuilder)? updates]) = _$WordInfo;
+  WordInfo._();
+
+  factory WordInfo.create(String word, {bool isFromDatabase = false}) =>
+      WordInfo(
+        (b) => b
+          ..word = word
+          ..isFromDatabase = isFromDatabase,
+      );
+}
+
 /// Construct the serialization/deserialization code for the data model.
 @SerializersFor([
   Location,
@@ -654,5 +722,6 @@ abstract class GameSession implements Built<GameSession, GameSessionBuilder> {
   DisplayInfo,
   GameUser,
   GameSession,
+  WordInfo,
 ])
 final Serializers serializers = _$serializers;
